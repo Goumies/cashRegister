@@ -1,6 +1,6 @@
-public class CashRegister {
+class CashRegister {
 
-    public double total(double price, int quantity) {
-        return price * quantity;
+    Price total(Price price, int quantity) {
+        return price.MultiplyBy(quantity);
     }
 }
