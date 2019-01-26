@@ -1,2 +1,2 @@
-# sandbox
-Ready to TDD 
+# CashRegister
+Functional programming in Java by practicing 
