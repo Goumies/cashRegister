@@ -14,11 +14,11 @@ class ItemReference {
         return itemCode;
     }
 
-    public Price getUnitPrice() {
+    Price getUnitPrice() {
         return unitPrice;
     }
 
-    public boolean matchesSoughtItemCode(String soughtItemCode) {
+    boolean matchesSoughtItemCode(String soughtItemCode) {
         return Objects.equals(itemCode, soughtItemCode);
     }
 
@@ -34,13 +34,14 @@ class ItemReference {
             this.unitPrice = Price.valueOf(unitPrice);
             return this;
         }
-        ItemReference build(){
-            return new ItemReference(itemCode, unitPrice);
-        }
 
-        public Builder withUnitPrice(Price unitPrice) {
+        Builder withUnitPrice(Price unitPrice) {
             this.unitPrice = unitPrice;
             return this;
+        }
+
+        ItemReference build() {
+            return new ItemReference(itemCode, unitPrice);
         }
     }
 }
