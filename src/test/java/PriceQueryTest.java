@@ -1,22 +1,25 @@
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(JUnitParamsRunner.class)
 public class PriceQueryTest {
-    private String itemCode = "APPLE";
-    private final double unitPriceValue = 1.20;
-    private Price unitPrice = Price.valueOf(unitPriceValue);
-
     private PriceQuery priceQuery = new PriceQuery(
-            ItemReference.aReference().withItemCode(itemCode).withUnitPrice(unitPrice).build());
+            ItemReference.aReference().withItemCode("APPLE").withUnitPrice(1.20).build(),
+            ItemReference.aReference().withItemCode("BANANA").withUnitPrice(1.90).build());
 
     @Test
-    public void with_an_itemCode_should_return_its_unit_price() {
-        assertThat(priceQuery.findPrice(itemCode)).isEqualTo(unitPrice);
+    @Parameters({"APPLE, 1.20",
+            "BANANA, 1.90"})
+    public void with_an_itemCode_should_return_its_unit_price(String itemCode, double unitPrice) {
+        assertThat(priceQuery.findPrice(itemCode)).isEqualTo(Result.found(Price.valueOf(unitPrice)));
     }
 
     @Test
     public void search_for_unknown_item() {
-        assertThat(priceQuery.findPrice("PEACH")).isEqualTo(Price.valueOf(0));
+        assertThat(priceQuery.findPrice("PEACH")).isEqualTo(Result.notFound("PEACH"));
     }
 }

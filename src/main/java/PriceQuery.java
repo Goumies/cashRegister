@@ -5,13 +5,13 @@ class PriceQuery {
         this.itemReferences = itemReferences;
     }
 
-    Price findPrice(String soughtItemCode) {
+    Result findPrice(String soughtItemCode) {
         for (ItemReference itemReference:
              itemReferences) {
             if (itemReference.matchesSoughtItemCode(soughtItemCode)) {
-                return itemReference.getUnitPrice();
+                return Result.found(itemReference.getUnitPrice());
             }
-        };
-        return Price.valueOf(0);
+        }
+        return Result.notFound(soughtItemCode);
     }
 }
