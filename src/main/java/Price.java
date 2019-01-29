@@ -11,7 +11,7 @@ import java.util.Objects;
         return new Price(value);
     }
 
-    Price MultiplyBy(Quantity quantity) {
+     Price multiplyBy(Quantity quantity) {
         return valueOf(quantity.MultiplyBy(value));
     }
 

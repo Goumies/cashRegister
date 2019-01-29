@@ -1,13 +1,13 @@
 import java.util.Objects;
 
 class Quantity {
-    final int value;
+    private final double value;
 
-    private Quantity(int value) {
+    private Quantity(double value) {
         this.value = value;
     }
 
-    static Quantity valueOf(int value) {
+    static Quantity valueOf(double value) {
         return new Quantity(value);
     }
 

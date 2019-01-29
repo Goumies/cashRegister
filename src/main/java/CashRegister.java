@@ -1,6 +1,6 @@
 class CashRegister {
 
-    Price total(Price price, Quantity quantity) {
-        return price.MultiplyBy(quantity);
+    Result total(Result result, Quantity quantity) {
+        return result.map(price -> price.multiplyBy(quantity));
     }
 }
