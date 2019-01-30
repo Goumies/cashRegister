@@ -1,4 +1,5 @@
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 abstract class Result {
@@ -11,6 +12,10 @@ abstract class Result {
     }
 
     abstract Result map(UnaryOperator<Price> mapper);
+
+    abstract void ifFound(Consumer<Price> consumer);
+
+    abstract void ifNotFound(Consumer<String> consumer);
 
     private static class Found extends Result {
         private final Price price;
@@ -36,6 +41,15 @@ abstract class Result {
         @Override
         Result map(UnaryOperator<Price> mapper) {
             return found(mapper.apply(price));
+        }
+
+        @Override
+        void ifFound(Consumer<Price> consumer) {
+            consumer.accept(price);
+        }
+
+        @Override
+        void ifNotFound(Consumer<String> consumer) {
         }
     }
 
@@ -63,6 +77,15 @@ abstract class Result {
         @Override
         Result map(UnaryOperator<Price> mapper) {
             return this;
+        }
+
+        @Override
+        void ifFound(Consumer<Price> consumer) {
+        }
+
+        @Override
+        void ifNotFound(Consumer<String> consumer) {
+            consumer.accept(invalidItemCode);
         }
     }
 }
