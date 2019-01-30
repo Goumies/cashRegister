@@ -16,18 +16,27 @@ public class CashRegisterTest {
             ItemReference.aReference().withItemCode("BANANA").withUnitPrice(1.90).build());
 
     @Test
-    public void with_a_price_and_a_quantity_should_return_the_product_of_both() {
-        Result price = Result.found(Price.valueOf(priceValue));
-        Quantity quantity = Quantity.valueOf(quantityValue);
-        Result total = cashRegister.total(price, quantity);
-        assertThat(total).isEqualTo(Result.found(Price.valueOf(priceValue)));
-    }
-
-    @Test
     @Parameters({"APPLE, 2, 1.20",
             "BANANA, 1, 1.90"})
     public void total_is_product_of_quantity_by_item_price_corresponding_to_existing_item_code(String itemCode, double quantity, double unitPrice) {
         Result total = cashRegister.total(priceQuery.findPrice(itemCode), Quantity.valueOf(quantity));
         assertThat(total).isEqualTo(Result.found(Price.valueOf(quantity * unitPrice)));
+    }
+
+    @Test
+    public void with_a_price_and_a_quantity_should_return_the_product_of_both() {
+        Result price = Result.found(Price.valueOf(priceValue));
+        Quantity quantity = Quantity.valueOf(quantityValue);
+        Result total = cashRegister.total(price, quantity);
+        assertThat(total).isEqualTo(Result.found(Price.valueOf(priceValue)));
+        total.ifFound(System.out::println);
+    }
+
+    @Test
+    public void total_consumes_an_not_found_result() {
+        Result total = cashRegister.total(priceQuery.findPrice("PEACH"),
+                Quantity.valueOf(1));
+        assertThat(total).isEqualTo(Result.notFound("PEACH"));
+        total.ifNotFound(System.err::println);
     }
 }
